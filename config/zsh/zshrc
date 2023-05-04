@@ -1,0 +1,54 @@
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+
+# history
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=800
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
+
+# aliases
+alias niol='clear && source ~/.zshrc'
+alias ls='echo; lsd'
+alias n='nvim'
+alias c='calc'
+alias zz='cd ~'
+alias g='cd "$(xplr --print-pwd-as-result)"'
+alias N='cd ~/notes'
+alias d='cd ~/dotfiles'
+alias D='cd ~/downloads'
+alias v='cd ~/vagari'
+alias e='cd ~/dotfiles/config/nvim'
+alias x='exit'
+alias p='paru'
+alias update='paru -Syu && paru -Qqe > ~/dotfiles/etc/packages.lst'
+alias oc='ouch compress'
+alias od='ouch decompress'
+alias ol='ouch list --tree'
+alias man='man --pager=$PAGER'
+alias zoomfix='GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb zoom & disown'
+alias vi="nvim"
+alias ew='eww-open'
+alias ews='eww inspector & disown && exit'
+alias el='eww logs'
+
+# plugins
+if [[ ! -f ${ZDOTDIR:-${HOME}}/.zcomet/bin/zcomet.zsh ]]; then
+    command git clone https://github.com/agkozak/zcomet.git ${ZDOTDIR:-${HOME}}/.zcomet/bin
+fi
+
+source ${ZDOTDIR:-${HOME}}/.zcomet/bin/zcomet.zsh
+
+zcomet load zsh-users/zsh-syntax-highlighting
+zcomet load zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_STRATEGY=(history completion match_prev_cmd)
+zcomet load marlonrichert/zsh-autocomplete
+zstyle ':autocomplete:*' fzf-completion yes
+zstyle ':autocomplete:*' min-delay 0.42
+zstyle ':autocomplete:*' list-lines 21
+zstyle ':autocomplete:history-search:*' list-lines 21
+zstyle ':autocomplete:history-incremental-search-*:*' list-lines 21
+
+source $HOME/.config/zsh/vagari_zsh-syntax-highlighting.zsh
